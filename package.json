@@ -1,0 +1,17 @@
+{
+  "name": "icao-9303-models",
+  "version": "0.1.0",
+  "description": "Transport-agnostic, portable ES6 models of ICAO Doc 9303 travel documents and Visible Digital Seals.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node --test tests/**/*.test.js"
+  },
+  "keywords": ["icao", "icao9303", "mrz", "mrtd", "vds", "identity", "passport"],
+  "author": "Don Geronimo",
+  "license": "LGPL-3.0-or-later"
+}
+
