@@ -4,7 +4,7 @@
 import { TravelDocument } from "./traveldocument.js";
 import { expandYear } from "./utilities/expand-year.js";
 import { generateMRZCheckDigit } from "./utilities/generate-mrz-check-digit.js";
-import { fullNameMRZ } from "./utilities/full-name-mrz.js";
+import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
 import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
 import { dateToMRZ } from "./utilities/date-to-mrz.js";
@@ -67,7 +67,10 @@ export class TD3Document {
 
     this.typeCode = opt?.typeCode ?? "PP";
     this.authorityCode = opt?.authorityCode ?? "UTO";
-    this.fullName = opt?.fullName ?? "Eriksson, Anna-Maria";
+    this.primaryIdentifier = opt?.primaryIdentifier ?? "Eriksson";
+    this.primaryIdentifierNative = opt?.primaryIdentifierNative ?? null;
+    this.secondaryIdentifier = opt?.secondaryIdentifier ?? null;
+    this.secondaryIdentifierNative = opt?.secondaryIdentifierNative ?? null;
     this.number = opt?.number ?? "L898902C3";
     this.nationalityCode = opt?.nationalityCode ?? "UTO";
     this.birthDate = opt?.birthDate ?? "1974-08-12";
@@ -113,19 +116,6 @@ export class TD3Document {
   set authorityCode(value) { this.#document.authorityCode = value; }
 
   /**
-   * The document holder's full name.
-   * @type { string }
-   */
-  get fullName() { return this.#document.fullName; }
-  /**
-   * @param { string } value - A ', ' separates the document holder's primary
-   *     identifier from their secondary identifiers. A '/' separates the full
-   *     name in a non-Latin national language from a
-   *     transcription/transliteration into the Latin characters A-Z.
-   */
-  set fullName(value) { this.#document.fullName = value; }
-
-  /**
    * The document holder's primary identifier
    * @type { string }
    */
@@ -133,7 +123,7 @@ export class TD3Document {
   /**
    * @param { string }
    */
-  set primaryIdentifier(value) { this.#document.primaryIdentifier; }
+  set primaryIdentifier(value) { this.#document.primaryIdentifier = value; }
 
   /**
    * The document holder's primary identifier in their native language
@@ -143,7 +133,7 @@ export class TD3Document {
   /**
    * @param { string | null }
    */
-  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = value?.trim() || null; }
+  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = typeof value === 'string' ?  value.trim() : null; }
 
   /**
    * The document holder's secondary identifier
@@ -153,7 +143,7 @@ export class TD3Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = value?.trim() || null; }
+  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = typeof value === 'string' ? value.trim() : null; }
 
   /**
    * The document holder's secondary identifier in their native language
@@ -163,7 +153,7 @@ export class TD3Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = value?.trim() || null; }
+  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = typeof value === 'string' ?  value.trim() : null; }
 
   /**
    * An identity document number unique for this document.
@@ -265,7 +255,11 @@ export class TD3Document {
   get mrzLine1() {
     return padMRZString(this.typeCode.replace(/\s/gi, "<"), 2) +
         padMRZString(this.authorityCode.replace(/\s/gi, "<"), 3) +
-        fullNameMRZ(this.fullName, 39);
+        padMRZString(
+	    normalizeMRZString(this.primaryIdentifier) +
+	    "<<" +
+	    normalizeMRZString(this.secondaryIdentifier)
+	, 39);
   }
   /**
    * @param { string } value - A MRZ line string of a 44-character length.
@@ -279,8 +273,9 @@ export class TD3Document {
     }
     this.typeCode = value.slice(0, 2).replace(/</gi, "");
     this.authorityCode = value.slice(2, 5).replace(/</gi, "");
-    this.fullName =
-        value.slice(5).replace("<<", ", ").replace(/</gi, " ").trimEnd();
+    const [primary, ...secondary] = value.slice(5).split("<<");
+    this.primaryIdentifier = primary.replace(/</gi, " ").trimEnd();
+    this.secondaryIdentifier = secondary.join("").replace(/</gi, " ").trimEnd();
   }
 
   /**
