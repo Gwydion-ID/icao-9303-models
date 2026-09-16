@@ -9,6 +9,7 @@ import { validateMRZString } from "./utilities/validate-mrz-string.js";
  * 
  * `TravelDocument` is intended to be used to compose different kinds of MRTDs.
  *     It is not intended to be instantiated directly.
+ * @abstract
  */
 export class TravelDocument {
   /**
@@ -279,5 +280,20 @@ export class TravelDocument {
    *     HTMLCanvasElement | ImageBitmap | OffscreenCanvas | VideoFrame }
    */
   signatureImage;
+
+  /**
+   * The full Machine-Readable Zone (MRZ)
+   * @abstract
+   * @type { string }
+   */
+  get machineReadableZone() {
+    throw new TypeError("Composed class must implement abstract property 'machineReadableZone'.");
+  }
+  /**
+   * @param { string } value - a MRZ string of appropriate length for the document.
+   */
+  set machineReadableZone(value) {
+    throw new TypeError("Composed class must implement abstract property 'machineReadableZone'.");
+  }
 }
 
