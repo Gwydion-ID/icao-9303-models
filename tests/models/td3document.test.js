@@ -9,7 +9,18 @@ describe('TD3-sized Machine Readable Travel Document', () => {
 
   describe('Use properties to reconstruct exemplary MRZ from documentation [REF ICAO 9303 Part 4 Appendix A]', () => {
     it('should equal the exemplary TD3 MRTD MRZ in Appendix A-1 and A-2.', () => {
-      const document = new TD3Document();
+      const document = new TD3Document({
+        typeCode: 'PP',
+        authorityCode: 'UTO',
+        number: 'L898902C3',
+        birthDate: '1974-08-12',
+        genderMarker: 'F',
+	expirationDate: '2034-04-15',
+	nationalityCode: 'UTO',
+	primaryIdentifier: 'Eriksson',
+	secondaryIdentifier: 'Anna-Maria',
+	optionalData: 'ZE184226B'
+      });
       assert.deepStrictEqual(document.mrzLine1, 'PPUTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<');
       assert.deepStrictEqual(document.mrzLine2, 'L898902C36UTO7408122F3404159ZE184226B<<<<<16');
       assert.deepStrictEqual(document.machineReadableZone, 'PPUTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<L898902C36UTO7408122F3404159ZE184226B<<<<<16');
@@ -28,7 +39,8 @@ describe('TD3-sized Machine Readable Travel Document', () => {
       assert.deepStrictEqual(document.genderMarker, 'F');
       assert.deepStrictEqual(document.expirationDate, new Date('2034-04-15T00:00:00'));
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
-      assert.deepStrictEqual(document.fullName, 'ERIKSSON, ANNA MARIA');
+      assert.deepStrictEqual(document.primaryIdentifier, 'ERIKSSON');
+      assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA MARIA');
       assert.deepStrictEqual(document.optionalData, 'ZE184226B');
     });
   });
@@ -39,7 +51,8 @@ describe('TD3-sized Machine Readable Travel Document', () => {
       const document = new TD3Document({
         typeCode: 'PP',
 	authorityCode: 'UTO',
-	fullName: 'Ivanova, Anna',
+	primaryIdentifier: 'Ivanova',
+	secondaryIdentifier: 'Anna',
 	number: 'L898902C3',
 	nationalityCode: 'UTO',
 	birthDate: '1974-08-12',
@@ -60,7 +73,8 @@ describe('TD3-sized Machine Readable Travel Document', () => {
       });
       assert.deepStrictEqual(document.typeCode, 'PP');
       assert.deepStrictEqual(document.authorityCode, 'UTO');
-      assert.deepStrictEqual(document.fullName, 'IVANOVA, ANNA');
+      assert.deepStrictEqual(document.primaryIdentifier, 'IVANOVA');
+      assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA');
       assert.deepStrictEqual(document.number, 'L898902C3');
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
       assert.deepStrictEqual(document.birthDate, new Date('1974-08-12T00:00:00'));
