@@ -33,17 +33,21 @@ export class MRVADocument {
    *     QMA-QZZ, XAA-XZZ, or ZZA-ZZZ.
    * @param { string } [opt.number] - A string no longer than 9 characters
    *     consisting of the characters A-Z, 0-9, ' ', or <.
-   * @param { string } [opt.fullName] - A ', ' separates the visa holder's
-   *     primary identifier from their secondary identifiers. A '/' separates
-   *     the full name in a non-Latin national language from a
-   *     transcription/transliteration into the Latin characters A-Z.
+   * @param { string } [opt.primaryIdentifier] - The visa holder's primary
+   *     identifier.
+   * @param { string | null } [opt.primaryIdentifierNative] - The visa
+   *     holder's primary identifier in their native language.
+   * @param { string | null } [opt.secondaryIdentifer] - The visa holder's
+   *     secondary identifier.
+   * @param { string | null } [opt.secondaryIdentifierNative] - The visa 
+   *     holder's secondary identifier in their native language.
    * @param { string } [opt.nationalityCode] - A 3-character string consisting
    *     of the characters A-Z, 0-9, ' ', or <. A code from ISO-3166-1,
    *     ICAO 9303-3, or these user-assigned ranges are recommended: AAA-AAZ,
    *     QMA-QZZ, XAA-XZZ, or ZZA-ZZZ.
    * @param { string | Date } [opt.birthDate] - A calendar date string in
    *     YYYY-MM-DD format or a `Date` object.
-   * @param { string } [opt.genderMarker] - The character 'F', 'M', or 'X'.
+   * @param { 'F' | 'M' | 'X' } [opt.genderMarker] - The character 'F', 'M', or 'X'.
    * @param { string | Date } [opt.validThru] - A calendar date string in
    *     YYYY-MM-DD format.
    * @param { string } [opt.optionalData] - Up to 16 characters. Valid
@@ -214,11 +218,11 @@ export class MRVADocument {
 
   /**
    * A marker representing the visa holder's gender.
-   * @type { string }
+   * @type { 'F' | 'M' | 'X' }
    */
   get genderMarker() { return this.#document.genderMarker; }
   /**
-   * @param { string } value - The character 'F', 'M', or 'X'.
+   * @param { 'F' | 'M' | 'X' } value - The character 'F', 'M', or 'X'.
    */
   set genderMarker(value) { this.#document.genderMarker = value; }
 
