@@ -134,7 +134,7 @@ export class TD2Document {
   /**
    * @param { string | null }
    */
-  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = typeof value === 'string' ?  value.trim() : null; }
+  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = value; }
 
   /**
    * The document holder's secondary identifier
@@ -144,7 +144,7 @@ export class TD2Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = typeof value === 'string' ?  value.trim() : null; }
+  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = value; }
 
   /**
    * The document holder's secondary identifier in their native language
@@ -154,7 +154,7 @@ export class TD2Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
+  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = value; }
 
   /**
    * An identity document number unique for this document.

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 import { validateMRZString } from "./utilities/validate-mrz-string.js";
+import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
 
 /**
  * Stores common properties and methods for all ICAO 9303 machine-readable
@@ -227,23 +228,38 @@ export class TravelDocument {
    */
   primaryIdentifier
 
+  #primaryIdentifierNative
   /**
    * The document holder's primary identifier in their native language
    * @type { string | null }
    */
-  primaryIdentifierNative
+  get primaryIdentifierNative() { return this.#primaryIdentifierNative; }
+  /**
+   * @param { string | null }
+   */
+  set primaryIdentifierNative(value) { this.#primaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
 
+  #secondaryIdentifier
   /**
    * The document holder's secondary identifier
    * @type { string | null }
    */
-  secondaryIdentifier
+  get secondaryIdentifier() { return this.#secondaryIdentifier; }
+  /**
+   * @param { string | null }
+   */
+  set secondaryIdentifier(value) { this.#secondaryIdentifier = typeof value === 'string' ? value.trim() : null; }
 
+  #secondaryIdentifierNative
   /**
    * The document holder's secondary identifier in their native language
    * @type { string | null }
    */
-  secondaryIdentifierNative
+  get secondaryIdentifierNative() { return this.#secondaryIdentifierNative; }
+  /**
+   * @param { string | null }
+   */
+  set secondaryIdentifierNative(value) { this.#secondaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
 
   #optionalData;
   /**
@@ -287,13 +303,13 @@ export class TravelDocument {
    * @type { string }
    */
   get machineReadableZone() {
-    throw new TypeError("Composed class must implement abstract property 'machineReadableZone'.");
+    throw new TypeError("An inherited or composed class must implement abstract property 'machineReadableZone'.");
   }
   /**
    * @param { string } value - a MRZ string of appropriate length for the document.
    */
   set machineReadableZone(value) {
-    throw new TypeError("Composed class must implement abstract property 'machineReadableZone'.");
+    throw new TypeError("An inherited or composed class must implement abstract property 'machineReadableZone'.");
   }
 }
 

@@ -166,7 +166,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
+  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = value; }
 
   /**
    * The visa holder's secondary identifier
@@ -176,7 +176,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = typeof value === 'string' ? value.trim() : null; }
+  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = value; }
 
   /**
    * The visa holder's secondary identifier in their native language
@@ -186,7 +186,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
+  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = value; }
 
   /**
    * A code identifying the visa holder's nationality (or lack thereof).

@@ -193,7 +193,7 @@ export class TD1Document {
   /**
    * @param { string | null }
    */
-  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = typeof value === 'string' ?  value.trim() : null; }
+  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = value; }
 
   /**
    * The document holder's secondary identifier
@@ -203,7 +203,7 @@ export class TD1Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = typeof value === 'string' ? value.trim() : null; }
+  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = value; }
 
   /**
    * The document holder's secondary identifier in their native language
@@ -213,7 +213,7 @@ export class TD1Document {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = typeof value === 'string' ?  value.trim() : null; }
+  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = value; }
 
   /**
    * Optional data to include in the Machine-Readable Zone (MRZ).
