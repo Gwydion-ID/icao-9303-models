@@ -5,7 +5,7 @@ import { TravelDocument } from "./traveldocument.js";
 import { VisaDocument } from "./visadocument.js";
 import { expandYear } from "./utilities/expand-year.js";
 import { generateMRZCheckDigit } from "./utilities/generate-mrz-check-digit.js";
-import { fullNameMRZ } from "./utilities/full-name-mrz.js";
+import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
 import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
 import { dateToMRZ } from "./utilities/date-to-mrz.js";
@@ -82,7 +82,10 @@ export class MRVADocument {
     this.typeCode = opt?.typeCode ?? "V";
     this.authorityCode = opt?.authorityCode ?? "UTO";
     this.number = opt?.number ?? "M12388954";
-    this.fullName = opt?.fullName ?? "Eriksson, Anna-Maria";
+    this.primaryIdentifier = opt?.primaryIdentifier ?? "Eriksson";
+    this.primaryIdentifierNative = opt?.primaryIdentifierNative ?? null;
+    this.secondaryIdentifier = opt?.secondaryIdentifier ?? null;
+    this.secondaryIdentifierNative = opt?.secondaryIdentifierNative ?? null;
     this.nationalityCode = opt?.nationalityCode ?? "XXX";
     this.birthDate = opt?.birthDate ?? "1974-08-12";
     this.genderMarker = opt?.genderMarker ?? "F";
@@ -146,19 +149,6 @@ export class MRVADocument {
   set number(value) { this.#document.number = value; }
 
   /**
-   * The visa holder's full name.
-   * @type { string }
-   */
-  get fullName() { return this.#document.fullName; }
-  /**
-   * @param { string } value - A ', ' separates the document holder's primary
-   *     identifier from their secondary identifiers. A '/' separates the full
-   *     name in a non-Latin national language from a
-   *     transcription/transliteration into the Latin characters A-Z.
-   */
-  set fullName(value) { this.#document.fullName = value; }
-
-  /**
    * The visa holder's primary identifier
    * @type { string }
    */
@@ -166,7 +156,7 @@ export class MRVADocument {
   /**
    * @param { string }
    */
-  set primaryIdentifier(value) { this.#document.primaryIdentifier; }
+  set primaryIdentifier(value) { this.#document.primaryIdentifier = value; }
 
   /**
    * The visa holder's primary identifier in their native language
@@ -176,7 +166,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = value?.trim() || null; }
+  set primaryIdentifierNative(value) { this.#document.primaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
 
   /**
    * The visa holder's secondary identifier
@@ -186,7 +176,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = value?.trim() || null; }
+  set secondaryIdentifier(value) { this.#document.secondaryIdentifier = typeof value === 'string' ? value.trim() : null; }
 
   /**
    * The visa holder's secondary identifier in their native language
@@ -196,7 +186,7 @@ export class MRVADocument {
   /**
    * @param { string | null }
    */
-  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = value?.trim() || null; }
+  set secondaryIdentifierNative(value) { this.#document.secondaryIdentifierNative = typeof value === 'string' ? value.trim() : null; }
 
   /**
    * A code identifying the visa holder's nationality (or lack thereof).
@@ -361,7 +351,11 @@ export class MRVADocument {
   get mrzLine1() {
     return padMRZString(this.typeCode.replace(/\s/gi, "<"), 2) +
         padMRZString(this.authorityCode.replace(/\s/gi, "<"), 3) +
-        fullNameMRZ(this.fullName, 39);
+        padMRZString(
+	    normalizeMRZString(this.primaryIdentifier) +
+	    "<<" +
+	    normalizeMRZString(this.secondaryIdentifier)
+	, 39);
   }
   /**
    * @param { string } value - A MRZ line string of a 44-character length.
@@ -375,8 +369,9 @@ export class MRVADocument {
     }
     this.typeCode = value.slice(0, 2).replace(/</gi, "");
     this.authorityCode = value.slice(2, 5).replace(/</gi, "");
-    this.fullName =
-        value.slice(5).replace("<<", ", ").replace(/</gi, " ").trimEnd();
+    const [primary, ...secondary] = value.slice(5).split("<<");
+    this.primaryIdentifier = primary.replace(/</gi, " ").trimEnd();
+    this.secondaryIdentifier = secondary.join("").replace(/</gi, " ").trimEnd();
   }
 
   /**
