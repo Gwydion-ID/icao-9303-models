@@ -9,7 +9,18 @@ describe('TD1-sized Machine Readable Travel Document', () => {
 
   describe('Use properties to reconstruct exemplary MRZ from documentation [REF ICAO 9303 Part 5 Appendix A]', () => {
     it('should equal the exemplary TD1 MRTD MRZ in Appendix A-1 and A-2.', () => {
-      const document = new TD1Document();
+      const document = new TD1Document({
+        typeCode: 'I',
+	authorityCode: 'UTO',
+	number: 'D23145890',
+	birthDate: '1974-08-12',
+	genderMarker: 'F',
+	expirationDate: '2012-04-15',
+	nationalityCode: 'UTO',
+	primaryIdentifier: 'Eriksson',
+	secondaryIdentifier: 'Anna-Maria',
+	optionalData: ''
+      });
       assert.deepStrictEqual(document.mrzLine1, 'I<UTOD231458907<<<<<<<<<<<<<<<');
       assert.deepStrictEqual(document.mrzLine2, '7408122F1204159UTO<<<<<<<<<<<6');
       assert.deepStrictEqual(document.mrzLine3, 'ERIKSSON<<ANNA<MARIA<<<<<<<<<<');
@@ -29,7 +40,8 @@ describe('TD1-sized Machine Readable Travel Document', () => {
       assert.deepStrictEqual(document.genderMarker, 'F');
       assert.deepStrictEqual(document.expirationDate, new Date('2012-04-15T00:00:00'));
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
-      assert.deepStrictEqual(document.fullName, 'ERIKSSON, ANNA MARIA');
+      assert.deepStrictEqual(document.primaryIdentifier, 'ERIKSSON');
+      assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA MARIA');
       assert.deepStrictEqual(document.optionalData, '');
     });
   });
