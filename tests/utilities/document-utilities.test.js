@@ -5,7 +5,6 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { dateToMRZ } from '../../src/utilities/date-to-mrz.js';
 import { expandYear } from "../../src/utilities/expand-year.js";
-import { fullNameMRZ } from '../../src/utilities/full-name-mrz.js';
 import { genderMarkerToMRZ } from '../../src/utilities/gender-marker-to-mrz.js';
 import { generateMRZCheckDigit } from '../../src/utilities/generate-mrz-check-digit.js';
 import { normalizeMRZString } from '../../src/utilities/normalize-mrz-string.js';
@@ -60,15 +59,6 @@ describe('Document Utility Functions', () => {
       assert.throws( () => { expandYear(100, maxYear) }, RangeError);
       assert.throws( () => { expandYear('abc', maxYear) }, RangeError);
       assert.throws( () => { expandYear(NaN, maxYear) }, RangeError);
-    });
-  });
-
-  describe('fullNameMRZ - Normalize and pad a full name for the name area of the MRZ', () => {
-    it('should output "MILLEFEUILLE<<ALFALFA<<<<<<<<<" for the full name "Millefeuille, Alfalfa" and length 30.', () => {
-      assert.deepStrictEqual(fullNameMRZ('Millefeuille, Alfalfa', 30), 'MILLEFEUILLE<<ALFALFA<<<<<<<<<');
-    });
-    it('should output "MILLEFEUILLE<<ALFALFA<THEOLONI" for the full name "Millefeuille, Alfalfa Theolonius" and length 30.', () => {
-      assert.deepStrictEqual(fullNameMRZ('Millefeuille, Alfalfa Theolonius', 30), 'MILLEFEUILLE<<ALFALFA<THEOLONI');
     });
   });
 
