@@ -56,7 +56,10 @@ export class TravelDocument {
     this.genderMarker = opt?.genderMarker ?? "F";
     this.expirationDate = opt?.expirationDate ?? "2012-04-15";
     this.nationalityCode = opt?.nationalityCode ?? "UTO";
-    this.fullName = opt?.fullName ?? "Eriksson, Anna-Maria";
+    this.primaryIdentifier = opt?.primaryIdentifier ?? "";
+    this.primaryIdentifierNative = opt?.primaryIdentifierNative ?? null;
+    this.secondaryIdentifier = opt?.secondaryIdentifier ?? null;
+    this.secondaryIdentifierNative = opt?.secondaryIdentifierNative ?? null;
     this.optionalData = opt?.optionalData ?? "";
 
     if (opt?.photo) { this.photo = opt.photo; }
@@ -218,12 +221,6 @@ export class TravelDocument {
   }
 
   /**
-   * The document holder's full name.
-   * @type { string }
-   */
-  fullName
-
-  /**
    * The document holder's primary identifier
    * @type { string }
    */
@@ -233,19 +230,19 @@ export class TravelDocument {
    * The document holder's primary identifier in their native language
    * @type { string | null }
    */
-  primaryIdentifierNative = null;
+  primaryIdentifierNative
 
   /**
    * The document holder's secondary identifier
    * @type { string | null }
    */
-  secondaryIdentifier = null;
+  secondaryIdentifier
 
   /**
    * The document holder's secondary identifier in their native language
    * @type { string | null }
    */
-  secondaryIdentifierNative = null;
+  secondaryIdentifierNative
 
   #optionalData;
   /**
