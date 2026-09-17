@@ -1,7 +1,7 @@
 {
   "name": "icao-9303-models",
   "version": "0.1.0",
-  "description": "Transport-agnostic, portable ES6 models of ICAO Doc 9303 travel documents and Visible Digital Seals.",
+  "description": "A collection of exports to represent and use ICAO Document 9303 machine-readable travel documents (MRTDs).",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
