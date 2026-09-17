@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 import { TravelDocument } from "./traveldocument.js";
-import { expandYear } from "./utilities/expand-year.js";
 import { generateMRZCheckDigit } from "./utilities/generate-mrz-check-digit.js";
 import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
 import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
-import { dateToMRZ } from "./utilities/date-to-mrz.js";
 import { genderMarkerToMRZ } from "./utilities/gender-marker-to-mrz.js";
 import { IcaoDate } from "./utilities/icao-date.js";
 
@@ -298,11 +296,11 @@ export class TD1Document {
    * @type { string }
    */
   get mrzLine2() {
-    const UNCHECKED_LINE = dateToMRZ(this.birthDate) +
-      generateMRZCheckDigit(dateToMRZ(this.birthDate)) +
+    const UNCHECKED_LINE = this.birthDate.toMRZString() +
+      generateMRZCheckDigit(this.birthDate.toMRZString()) +
       genderMarkerToMRZ(this.genderMarker) +
-      dateToMRZ(this.expirationDate) +
-      generateMRZCheckDigit(dateToMRZ(this.expirationDate)) +
+      this.expirationDate.toMRZString() +
+      generateMRZCheckDigit(this.expirationDate.toMRZString()) +
       padMRZString(this.nationalityCode.replace(/\s/gi, "<"), 3) +
       optionalDataMRZ(this.optionalData, 26).slice(15);
     return UNCHECKED_LINE +
@@ -339,11 +337,9 @@ export class TD1Document {
             ` date of expiration.`
       );
     }
-    this.birthDate = `${expandYear(value.slice(0, 2), new Date().getFullYear()).toString()}-` +
-        `${value.slice(2, 4)}-${value.slice(4, 6)}`;
+    this.birthDate = new IcaoDate(value.slice(0, 6), new Date().getFullYear());
     this.genderMarker = value[7] === "<" ? "X" : value[7];
-    this.expirationDate = `${expandYear(value.slice(8, 10), new Date().getFullYear() + 20).toString()}-` +
-        `${value.slice(10, 12)}-${value.slice(12, 14)}`;
+    this.expirationDate = new IcaoDate(value.slice(8, 14));
     this.nationalityCode = value.slice(15, 18).replace(/</gi, "");
   }
 

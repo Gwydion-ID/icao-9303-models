@@ -2,12 +2,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 import { TravelDocument } from "./traveldocument.js";
-import { expandYear } from "./utilities/expand-year.js";
 import { generateMRZCheckDigit } from "./utilities/generate-mrz-check-digit.js";
 import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
 import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
-import { dateToMRZ } from "./utilities/date-to-mrz.js";
 import { genderMarkerToMRZ } from "./utilities/gender-marker-to-mrz.js";
 import { IcaoDate } from "./utilities/icao-date.js";
 
@@ -292,11 +290,11 @@ export class TD2Document {
     const UNCHECKED_LINE = padMRZString(this.number.replace(/\s/gi, "<"), 9) +
       generateMRZCheckDigit(padMRZString(this.number.replace(/\s/gi, "<"), 9)) +
       padMRZString(this.nationalityCode.replace(/\s/gi, "<"), 3) +
-      dateToMRZ(this.birthDate) +
-      generateMRZCheckDigit(dateToMRZ(this.birthDate)) +
+      this.birthDate.toMRZString() +
+      generateMRZCheckDigit(this.birthDate.toMRZString()) +
       genderMarkerToMRZ(this.genderMarker) +
-      dateToMRZ(this.expirationDate) +
-      generateMRZCheckDigit(dateToMRZ(this.expirationDate)) +
+      this.expirationDate.toMRZString() +
+      generateMRZCheckDigit(this.expirationDate.toMRZString()) +
       optionalDataMRZ(this.optionalData, 7);
     return UNCHECKED_LINE +
       generateMRZCheckDigit(
@@ -352,11 +350,9 @@ export class TD2Document {
     }
     this.number = value.slice(0, 9).replace(/</gi, "");
     this.nationalityCode = value.slice(10, 13).replace(/</gi, "");
-    this.birthDate = `${expandYear(value.slice(13, 15), new Date().getFullYear()).toString()}` +
-        `-${value.slice(15, 17)}-${value.slice(17, 19)}`;
+    this.birthDate = new IcaoDate(value.slice(13, 19), new Date().getFullYear());
     this.genderMarker = value[20] === "<" ? "X" : value[20];
-    this.expirationDate = `${expandYear(value.slice(21, 23), new Date().getFullYear() +20).toString()}` +
-        `-${value.slice(23, 25)}-${value.slice(25, 27)}`;
+    this.expirationDate = new IcaoDate(value.slice(21, 27));
     this.optionalData = value.slice(28, 35).replace(/</gi, " ").trimEnd();
   }
 
