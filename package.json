@@ -1,6 +1,6 @@
 {
   "name": "@gwydion-id/icao-9303-models",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A collection of exports to represent and use ICAO Document 9303 machine-readable travel documents (MRTDs).",
   "type": "module",
   "main": "./src/index.js",
