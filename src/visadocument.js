@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 import { validateMRZString } from "./utilities/validate-mrz-string.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores properties specific to machine-readable visa documents.
@@ -15,8 +16,8 @@ export class VisaDocument {
    * Create a `VisaDocument`.
    * @param { Object } [opt] - An options object.
    * @param { string } [opt.placeOfIssue] - Location where the visa was issued.
-   * @param { string | Date } [opt.validFrom] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.validFrom] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { string | number } [opt.numberOfEntries] - 0 or any string denotes
    *     an unlimited number of entries.
    * @param { string } [opt.visaType] - A type/name/description for this visa.
@@ -45,22 +46,15 @@ export class VisaDocument {
   #validFrom;
   /**
    * Starting date on which the visa is valid.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get validFrom() { return this.#validFrom; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set validFrom(value) {
-    let test = typeof value === "string" ? new Date(`${value}T00:00:00`)
-        : new Date(value);
-    if (test.toString() === "Invalid Date") {
-      throw new TypeError(
-        "Valid From (validFrom) must be a valid date string."
-      );
-    }
-    this.#validFrom = test;
+    this.#validFrom = new IcaoDate(value);
   }
 
   #numberOfEntries;
