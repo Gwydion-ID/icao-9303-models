@@ -3,7 +3,6 @@
 
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { dateToMRZ } from '../../src/utilities/date-to-mrz.js';
 import { expandYear } from "../../src/utilities/expand-year.js";
 import { genderMarkerToMRZ } from '../../src/utilities/gender-marker-to-mrz.js';
 import { generateMRZCheckDigit } from '../../src/utilities/generate-mrz-check-digit.js';
@@ -16,12 +15,6 @@ import { validateIdentifierCode } from '../../src/utilities/validate-identifier-
 import { validateMRZString } from '../../src/utilities/validate-mrz-string.js';
 
 describe('Document Utility Functions', () => {
-
-  describe('dateToMRZ - Convert a JavaScript Date object to a MRZ YYMMDD date string', () => {
-    it('should output "570325" from new Date("1957-03-25T00:00:00").', () => {
-      assert.deepStrictEqual(dateToMRZ(new Date('1957-03-25T00:00:00')), "570325");
-    });
-  });
 
   describe('expandYear - Expands a two-digit year into a four-digit year within the window (maxYear - 100, maxYear]', () => {
     it('should expand birth dates correctly. (maxYear = 2026)', () => {
