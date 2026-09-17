@@ -7,7 +7,7 @@
 
 > A collection of exports to represent and use [ICAO Document 9303 machine-readable travel documents (MRTDs)][icao9303].
 
-[![REUSE status](https://api.reuse.software/badge/github.com/Gwydion-ID/icao-9303-models)](https://api.reuse.software/info/github.com/Gwydion-ID/icao-9303-models)
+[![REUSE status](https://api.reuse.software/badge/github.com/gwydion-id/icao-9303-models)](https://api.reuse.software/info/github.com/gwydion-id/icao-9303-models)
 
 ## Provided exports
 
