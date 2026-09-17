@@ -7,6 +7,7 @@ import { setSignatureZone } from "./utilities/set-signature-zone.js";
 import { validateMRZString } from "./utilities/validate-mrz-string.js"
 import { validateIdentifierCode } from "./utilities/validate-identifier-code.js";
 import { validateHexString } from "./utilities/validate-hex-string.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores common properties and methods for all ICAO 9303 visible digital seals
@@ -27,10 +28,10 @@ export class DigitalSeal {
    *     the characters 0-9 and A-Z.
    * @param { string } [opt.certReference] - A hex-string that uniquely
    *     identifies a certificate for a given signer.
-   * @param { string | Date } [opt.issueDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
-   * @param { string | Date } [opt.signatureDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.issueDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
+   * @param { string | Date | IcaoDate } [opt.signatureDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { number } [opt.featureDefinition] - A number in the range of
    *     0x01-0xFE.
    * @param { number } [opt.typeCategory] - A number in the range of 0x01-0xFE.
@@ -127,45 +128,29 @@ export class DigitalSeal {
   #issueDate;
   /**
    * A date string on which the document was issued.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get issueDate() { return this.#issueDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set issueDate(value) {
-    const date = typeof value === "string" ? new Date(`${value}T00:00:00`)
-        : new Date(value);
-    if (date.toString() === "Invalid Date") {
-      throw new TypeError(
-        `Value '${value}' is not a valid date string.`
-      );
-    } else {
-      this.#issueDate = date;
-    }
+    this.#issueDate = new IcaoDate(value);
   }
 
   #signatureDate;
   /**
    * A date string on which the seal was signed.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get signatureDate() { return this.#signatureDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
    *     format or a `Date` object.
    */
   set signatureDate(value) {
-    const date = typeof value === "string" ? new Date(`${value}T00:00:00`)
-        : new Date(value);
-    if (date.toString() === "Invalid Date") {
-      throw new TypeError(
-        `Value '${value}' is not a valid date string.`
-      );
-    } else {
-      this.#signatureDate = date;
-    }
+    this.#signatureDate = new IcaoDate(value);
   }
 
   #featureDefinition;

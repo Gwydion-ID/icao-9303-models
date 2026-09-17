@@ -6,10 +6,9 @@ import { c40Encode } from "./utilities/c40-encode.js";
 import { c40Decode } from "./utilities/c40-decode.js";
 import { VDS_MAGIC } from "./utilities/vds-magic.js";
 import { VDS_SIGNATURE_MARKER } from "./utilities/vds-signature-marker.js";
-import { dateToBytes } from "./utilities/date-to-bytes.js";
-import { bytesToDate } from "./utilities/bytes-to-date.js";
 import { setSignatureZone } from "./utilities/set-signature-zone.js";
 import { VDS_VERSION_3 } from "./utilities/vds-version-3.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores properties and methods for ICAO 9303 visible digital seals (VDSs)
@@ -34,10 +33,10 @@ export class DigitalSealV3 {
    *     the characters 0-9 and A-Z.
    * @param { string } [opt.certReference] - A hex-string that uniquely
    *     identifies a certificate for a given signer.
-   * @param { string | Date } [opt.issueDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
-   * @param { string | Date } [opt.signatureDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.issueDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
+   * @param { string | Date | IcaoDate } [opt.signatureDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { number } [opt.featureDefinition] - A number in the range of
    *     0x01-0xFE.
    * @param { number } [opt.typeCategory] - A number in the range of 0x01-0xFE.
@@ -127,23 +126,23 @@ export class DigitalSealV3 {
 
   /**
    * A date string on which the document was issued.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get issueDate() { return this.#digitalseal.issueDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set issueDate(value) { this.#digitalseal.issueDate = value; }
 
   /**
    * A date string on which the seal was signed.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get signatureDate() { return this.#digitalseal.signatureDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set signatureDate(value) { this.#digitalseal.signatureDate = value; }
 
@@ -207,8 +206,8 @@ export class DigitalSealV3 {
       this.identifierCode +
       this.certReference
     ));
-    output = output.concat(dateToBytes(this.issueDate));
-    output = output.concat(dateToBytes(this.signatureDate));
+    output = output.concat(this.issueDate.toVDSArray());
+    output = output.concat(this.signatureDate.toVDSArray());
     output.push(this.featureDefinition);
     output.push(this.typeCategory);
     return output;
@@ -251,9 +250,9 @@ export class DigitalSealV3 {
     this.identifierCode = ID_CERT_REF.substring(0, 4);
     this.certReference = ID_CERT_REF.substring(4);
     start += 6;
-    this.issueDate = bytesToDate(value.slice(start, start + 3));
+    this.issueDate = new IcaoDate(value.slice(start, start + 3));
     start += 3;
-    this.signatureDate = bytesToDate(value.slice(start, start + 3));
+    this.signatureDate = new IcaoDate(value.slice(start, start + 3));
     start += 3;
     this.featureDefinition = value[start];
     start += 1;

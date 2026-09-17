@@ -27,8 +27,8 @@ describe('Visible Digital Seal version 4', () => {
       assert.deepStrictEqual(document.authorityCode, 'UTO');
       assert.deepStrictEqual(document.identifierCode, 'UTTS');
       assert.deepStrictEqual(document.certReference,'5B');
-      assert.deepStrictEqual(document.issueDate, new Date('2020-06-13T00:00:00'));
-      assert.deepStrictEqual(document.signatureDate, new Date('2020-06-15T00:00:00'));
+      assert.deepStrictEqual(document.issueDate.toISOString(), '2020-06-13');
+      assert.deepStrictEqual(document.signatureDate.toISOString(), '2020-06-15');
       // REF ICAO 9303 Part 7 SS 9.1, Page 39
       assert.deepStrictEqual(document.featureDefinition, 93);
       assert.deepStrictEqual(document.typeCategory, 1);
