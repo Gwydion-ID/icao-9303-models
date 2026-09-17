@@ -35,9 +35,9 @@ describe('TD3-sized Machine Readable Travel Document', () => {
       assert.deepStrictEqual(document.typeCode, 'PP');
       assert.deepStrictEqual(document.authorityCode, 'UTO');
       assert.deepStrictEqual(document.number, 'L898902C3');
-      assert.deepStrictEqual(document.birthDate, new Date('1974-08-12T00:00:00'));
+      assert.deepStrictEqual(document.birthDate.toISOString(), '1974-08-12');
       assert.deepStrictEqual(document.genderMarker, 'F');
-      assert.deepStrictEqual(document.expirationDate, new Date('2034-04-15T00:00:00'));
+      assert.deepStrictEqual(document.expirationDate.toISOString(), '2034-04-15');
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
       assert.deepStrictEqual(document.primaryIdentifier, 'ERIKSSON');
       assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA MARIA');
@@ -77,9 +77,9 @@ describe('TD3-sized Machine Readable Travel Document', () => {
       assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA');
       assert.deepStrictEqual(document.number, 'L898902C3');
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
-      assert.deepStrictEqual(document.birthDate, new Date('1974-08-12T00:00:00'));
+      assert.deepStrictEqual(document.birthDate.toISOString(), '1974-08-12');
       assert.deepStrictEqual(document.genderMarker, 'F');
-      assert.deepStrictEqual(document.expirationDate, new Date('2025-04-15T00:00:00'));
+      assert.deepStrictEqual(document.expirationDate.toISOString(), '2025-04-15');
       assert.deepStrictEqual(document.optionalData, '184226');
     });
   });

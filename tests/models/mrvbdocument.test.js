@@ -37,9 +37,9 @@ describe('TD2-sized Machine Readable Visa', () => {
       assert.deepStrictEqual(document.typeCode, 'V');
       assert.deepStrictEqual(document.authorityCode, 'UTO');
       assert.deepStrictEqual(document.passportNumber, 'L8988901C');
-      assert.deepStrictEqual(document.birthDate, new Date('1974-08-12T00:00:00'));
+      assert.deepStrictEqual(document.birthDate.toISOString(), '1974-08-12');
       assert.deepStrictEqual(document.genderMarker, 'F');
-      assert.deepStrictEqual(document.validThru, new Date('1996-12-10T00:00:00'));
+      assert.deepStrictEqual(document.validThru.toISOString(), '1996-12-10');
       assert.deepStrictEqual(document.nationalityCode, 'XXX');
       assert.deepStrictEqual(document.primaryIdentifier, 'ERIKSSON');
       assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA MARIA');

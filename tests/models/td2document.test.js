@@ -35,9 +35,9 @@ describe('TD2-sized Machine Readable Travel Document', () => {
       assert.deepStrictEqual(document.typeCode, 'I');
       assert.deepStrictEqual(document.authorityCode, 'UTO');
       assert.deepStrictEqual(document.number, 'D23145890');
-      assert.deepStrictEqual(document.birthDate, new Date('1974-08-12T00:00:00'));
+      assert.deepStrictEqual(document.birthDate.toISOString(), '1974-08-12');
       assert.deepStrictEqual(document.genderMarker, 'F');
-      assert.deepStrictEqual(document.expirationDate, new Date('2012-04-15T00:00:00'));
+      assert.deepStrictEqual(document.expirationDate.toISOString(), '2012-04-15');
       assert.deepStrictEqual(document.nationalityCode, 'UTO');
       assert.deepStrictEqual(document.primaryIdentifier, 'ERIKSSON');
       assert.deepStrictEqual(document.secondaryIdentifier, 'ANNA MARIA');
