@@ -11,6 +11,7 @@ import { lengthToDERLength } from "./utilities/length-to-der-length.js";
 import { derLengthToLength } from "./utilities/der-length-to-length.js";
 import { setSignatureZone } from "./utilities/set-signature-zone.js";
 import { IcaoDate } from "./utilities/icao-date.js";
+import { getHash } from "./utilities/get-hash.js";
 
 /**
  * Stores properties and methods for ICAO 9303 visible digital seals (VDSs)
@@ -364,6 +365,17 @@ export class DigitalSealV4 {
     start = this.#setHeader(start, value);
     start = this.#setMessage(start, value);
     this.signatureData = setSignatureZone(start, value);
+  }
+
+  /**
+   * Get a hash of the VDS for use in signing and verification operations.
+   * @param { 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' } [algorithm = 'SHA-256'] - A
+   *     Web Crypto API supported hash function string.
+   * @returns { Promise<number[]> }
+   */
+  async getHash(algorithm = 'SHA-256') {
+    const output = await getHash(this.unsignedSeal, algorithm);
+    return output;
   }
 }
 
