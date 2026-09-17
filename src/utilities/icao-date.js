@@ -20,8 +20,9 @@ import { bytesToDate } from './bytes-to-date.js';
 export class IcaoDate {
   /**
    * Create an `IcaoDate`.
-   * @param { string | Date | number[] } [value = new Date()] - A date string in YYYY-MM-DD
-   *     ISO 8601 format, a date string in MRZ format, a Date object, or a VDS date array.
+   * @param { string | Date | number[] | IcaoDate } [value = new Date()] - A date string in YYYY-MM-DD
+   *     ISO 8601 format, a date string in MRZ format, a Date object, a VDS date array, or
+   *     another IcaoDate object..
    * @param { number } [maxYear = new Date().getFullYear() + 20] - Upper bound of the
    *     100-year window (inclusive) used when expanding a two-digit year.
    */
@@ -53,6 +54,8 @@ export class IcaoDate {
         throw new TypeError('Byte array passed to IcaoDate constructor is an invalid VDS byte array.');
       }
       this.setFullYear(convert.getFullYear(), convert.getMonth(), convert.getDate());
+    } else if (value instanceof IcaoDate) {
+      return value;
     } else {
       throw new TypeError('Parameter passed to IcaoDate constructor is not a supported date format.');
     }
