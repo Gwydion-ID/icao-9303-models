@@ -26,11 +26,11 @@ export class TravelDocument {
    *     QMA-QZZ, XAA-XZZ, or ZZA-ZZZ.
    * @param { string } [opt.number] - A string no longer than 9 characters
    *     consisting of the characters A-Z, 0-9, ' ', or <.
-   * @param { string | Date } [opt.birthDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.birthDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { 'F' | 'M' | 'X' } [opt.genderMarker] - The character 'F', 'M', or 'X'.
-   * @param { string | Date } [opt.expirationDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.expirationDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { string } [opt.nationalityCode] - A 3-character string consisting
    *     of the characters A-Z, 0-9, ' ', or <. A code from ISO-3166-1,
    *     ICAO 9303-3, or these user-assigned ranges are recommended: AAA-AAZ,
@@ -148,8 +148,8 @@ export class TravelDocument {
    */
   get birthDate() { return this.#birthDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` string.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set birthDate(value) {
     this.#birthDate = new IcaoDate(value);
@@ -181,8 +181,8 @@ export class TravelDocument {
    */
   get expirationDate() { return this.#expirationDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` string.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set expirationDate(value) {
     this.#expirationDate = new IcaoDate(value);

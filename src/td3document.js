@@ -9,6 +9,7 @@ import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
 import { dateToMRZ } from "./utilities/date-to-mrz.js";
 import { genderMarkerToMRZ } from "./utilities/gender-marker-to-mrz.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores properties and methods for TD3-sized machine-readable travel documents
@@ -43,11 +44,11 @@ export class TD3Document {
    *     of the characters A-Z, 0-9, ' ', or <. A code from ISO-3166-1,
    *     ICAO 9303-3, or these user-assigned ranges are recommended: AAA-AAZ,
    *     QMA-QZZ, XAA-XZZ, or ZZA-ZZZ.
-   * @param { string | Date } [opt.birthDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.birthDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { 'F' | 'M' | 'X' } [opt.genderMarker] - The character 'F', 'M', or 'X'.
-   * @param { string | Date } [opt.expirationDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.expirationDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { string } [opt.optionalData] - Up to 14 characters. Valid
    *     characters are from the ranges A-Z, 0-9, ' ', or <.
    * @param { string } [opt.mrzLine1] - A MRZ line string of a 44-character
@@ -185,12 +186,12 @@ export class TD3Document {
 
   /**
    * The document holder's date of birth.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get birthDate() { return this.#document.birthDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set birthDate(value) { this.#document.birthDate = value; }
 
@@ -206,12 +207,12 @@ export class TD3Document {
 
   /**
    * The last date on which this document is valid.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get expirationDate() { return this.#document.expirationDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set expirationDate(value) { this.#document.expirationDate = value; }
 

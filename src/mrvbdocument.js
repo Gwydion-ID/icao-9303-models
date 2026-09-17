@@ -10,6 +10,7 @@ import { optionalDataMRZ } from "./utilities/optional-data-mrz.js";
 import { padMRZString } from "./utilities/pad-mrz-string.js";
 import { dateToMRZ } from "./utilities/date-to-mrz.js";
 import { genderMarkerToMRZ } from "./utilities/gender-marker-to-mrz.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores properties and methods for smaller machine-redable visas (MRV-B) with
@@ -46,11 +47,11 @@ export class MRVBDocument {
    *     of the characters A-Z, 0-9, ' ', or <. A code from ISO-3166-1,
    *     ICAO 9303-3, or these user-assigned ranges are recommended: AAA-AAZ,
    *     QMA-QZZ, XAA-XZZ, or ZZA-ZZZ.
-   * @param { string | Date } [opt.birthDate] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.birthDate] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { 'F' | 'M' | 'X' } [opt.genderMarker] - The character 'F', 'M', or 'X'.
-   * @param { string | Date } [opt.validThru] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.validThru] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { string } [opt.optionalData] - Up to 8 characters. Valid characters
    *     are from the ranges A-Z, 0-9, ' ', or <.
    * @param { string } [opt.mrzLine1] - A MRZ line string of a 36-character
@@ -69,8 +70,8 @@ export class MRVBDocument {
    *     VideoFrame } [opt.signatureImage] - A path/URL to an image, or an image
    *     object, representing the signature or usual mark of the visa issuer.
    * @param { string } [opt.placeOfIssue] - Location where the visa was issued.
-   * @param { string | Date } [opt.validFrom] - A calendar date string in
-   *     YYYY-MM-DD format or a `Date` object.
+   * @param { string | Date | IcaoDate } [opt.validFrom] - A calendar date string in
+   *     YYYY-MM-DD format, a `Date` object, or an `IcaoDate` object.
    * @param { string | number } [opt.numberOfEntries] - 0 or any string denotes
    *     an unlimited number of entries.
    * @param { string } [opt.visaType] - A type/name/description for this visa.
@@ -208,12 +209,12 @@ export class MRVBDocument {
 
   /**
    * The visa holder's date of birth.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get birthDate() { return this.#document.birthDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set birthDate(value) { this.#document.birthDate = value; }
 
@@ -229,12 +230,12 @@ export class MRVBDocument {
 
   /**
    * The last date on which this visa is valid.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get validThru() { return this.#document.expirationDate; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set validThru(value) { this.#document.expirationDate = value; }
 
@@ -287,12 +288,12 @@ export class MRVBDocument {
 
   /**
    * Starting date on which the visa is valid.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get validFrom() { return this.#visa.validFrom; }
   /**
-   * @param { string | Date } value - A calendar date string in YYYY-MM-DD
-   *     format or a `Date` object.
+   * @param { string | Date | IcaoDate } value - A calendar date string in YYYY-MM-DD
+   *     format, a `Date` object, or an `IcaoDate` object.
    */
   set validFrom(value) { this.#visa.validFrom = value; }
 
