@@ -555,5 +555,16 @@ export class MRVADocumentWithVDS3 {
    * @param { number[] } value
    */
   set signedSeal(value) { this.#digitalseal.signedSeal = value; }
+
+  /**
+   * Get a hash of the VDS for use in signing and verification operations.
+   * @param { 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' } [algorithm = 'SHA-256'] - A
+   *     Web Crypto API supported hash function string.
+   * @returns { Promise<number[]> }
+   */
+  async getHash(algorithm = 'SHA-256') {
+    const output = await this.#digitalseal.getHash(algorithm);
+    return output;
+  }
 }
 
