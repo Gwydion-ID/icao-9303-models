@@ -7,16 +7,7 @@
 
 > A collection of exports to represent and use [ICAO Document 9303 machine-readable travel documents (MRTDs)][icao9303].
 
-* [Provided exports][#provided-exports]
-* [License][#license]
-
 ## Provided exports
-
-* [Abstract models][#abstract-models]
-* [Digital seals][#digital-seals]
-* [Base document models][#base-document-models]
-* [Composed document models][#composed-document-models]
-* [Utility exports][#constants-objects-and-functions]
 
 ### Abstract models
 
