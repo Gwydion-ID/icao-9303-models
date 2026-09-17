@@ -3,6 +3,7 @@
 
 import { validateMRZString } from "./utilities/validate-mrz-string.js";
 import { normalizeMRZString } from "./utilities/normalize-mrz-string.js";
+import { IcaoDate } from "./utilities/icao-date.js";
 
 /**
  * Stores common properties and methods for all ICAO 9303 machine-readable
@@ -143,7 +144,7 @@ export class TravelDocument {
   #birthDate;
   /**
    * The document holder's date of birth.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get birthDate() { return this.#birthDate; }
   /**
@@ -151,14 +152,7 @@ export class TravelDocument {
    *     format or a `Date` string.
    */
   set birthDate(value) {
-    const test = typeof value === "string" ? new Date(`${value}T00:00:00`)
-        : new Date(value);
-    if (test.toString() === "Invalid Date") {
-      throw new TypeError(
-        "Date of birth (dateOfBirth) must be a valid date string."
-      );
-    }
-    this.#birthDate = test;
+    this.#birthDate = new IcaoDate(value);
   }
 
   #genderMarker;
@@ -183,7 +177,7 @@ export class TravelDocument {
   #expirationDate;
   /**
    * The last date on which this document is valid.
-   * @type { Date }
+   * @type { IcaoDate }
    */
   get expirationDate() { return this.#expirationDate; }
   /**
@@ -191,14 +185,7 @@ export class TravelDocument {
    *     format or a `Date` string.
    */
   set expirationDate(value) {
-    const test = typeof value === "string" ? new Date(`${value}T00:00:00`)
-        : new Date(value);
-    if (test.toString() === "Invalid Date") {
-      throw new TypeError(
-        "Date of expiration (dateOfExpiration) must be a valid date string."
-      );
-    }
-    this.#expirationDate = test;
+    this.#expirationDate = new IcaoDate(value);
   }
 
   #nationalityCode;
