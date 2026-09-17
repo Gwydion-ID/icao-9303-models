@@ -4,7 +4,7 @@
 // Utility exports
 export { NATIONALITY_CODES } from './utilities/nationality-codes.js';
 export { IcaoDate } from './utilities/icao-date.js';
-export { dateToBytes } from './utilities/dates-to-bytes.js';
+export { dateToBytes } from './utilities/date-to-bytes.js';
 export { bytesToDate } from './utilities/bytes-to-date.js';
 export { c40Decode } from './utilities/c40-decode.js';
 export { c40Encode } from './utilities/c40-encode.js';
