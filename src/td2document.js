@@ -70,7 +70,6 @@ export class TD2Document {
 
     this.typeCode = opt?.typeCode ?? "I";
     this.authorityCode = opt?.authorityCode ?? "UTO";
-    this.fullName = opt?.fullName ?? "Eriksson, Anna-Maria";
     this.primaryIdentifier = opt?.primaryIdentifier ?? "Eriksson";
     this.primaryIdentifierNative = opt?.primaryIdentifierNative ?? null;
     this.secondaryIdentifier = opt?.secondaryIdentifier ?? null;

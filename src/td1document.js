@@ -77,7 +77,6 @@ export class TD1Document {
     this.genderMarker = opt?.genderMarker ?? "F";
     this.expirationDate = opt?.expirationDate ?? "2012-04-15";
     this.nationalityCode = opt?.nationalityCode ?? "UTO";
-    this.fullName = opt?.fullName ?? "Eriksson, Anna-Maria";
     this.primaryIdentifier = opt?.primaryIdentifier ?? "Eriksson";
     this.primaryIdentifierNative = opt?.primaryIdentifierNative ?? null;
     this.secondaryIdentifier = opt?.secondaryIdentifier ?? null;
