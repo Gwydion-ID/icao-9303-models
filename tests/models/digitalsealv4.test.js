@@ -19,11 +19,17 @@ const signedSeal = [ 0xdc, 0x03, 0xd9, 0xc5, 0xd9, 0xca, 0xc8, 0xa7, 0x3a, 0x99,
                      0xfe, 0x15, 0xf6, 0x8d, 0xdd, 0x68, 0x18, 0xaf, 0x5a, 0x7b, 0xaf, 0x21, 0xca, 0x7c, 0xfc, 0x7e,
                      0xb3, 0xbe ]
 
+const sealHash = [ 0x02, 0x81, 0x9b, 0x0d, 0xd7, 0x08, 0x6f, 0x79,
+                   0x87, 0xf4, 0xb9, 0xa3, 0x23, 0xa3, 0x37, 0x58,
+                   0xea, 0xd3, 0xa5, 0x63, 0x87, 0x28, 0x98, 0xef,
+                   0x0c, 0x9a, 0xa1, 0xca, 0x20, 0xce, 0x7e, 0xa8 ]
+
 describe('Visible Digital Seal version 4', () => {
 
   describe('Import exemplary raw data from documentation [REF ICAO 9303 Part 7 Appendix E]', () => {
-    it('should equal the values from exemplary VDS in Appendix E-2.', () => {
+    it('should equal the values from exemplary VDS in Appendix E-2.', async () => {
       const document = new DigitalSealV4({ signedSeal: signedSeal });
+      const hash = await document.getHash();
       assert.deepStrictEqual(document.authorityCode, 'UTO');
       assert.deepStrictEqual(document.identifierCode, 'UTTS');
       assert.deepStrictEqual(document.certReference,'5B');
@@ -37,11 +43,12 @@ describe('Visible Digital Seal version 4', () => {
       assert.deepStrictEqual(document.features.get(3), [ 2 ]);
       assert.deepStrictEqual(document.features.get(4), [ 0x5a, 0x00, 0x00 ]);
       assert.deepStrictEqual(c40Decode(document.features.get(5)), 'ABC424242');
+      assert.deepStrictEqual(hash, sealHash);
     });
   });
 
   describe('Use properties to reconstruct the exemplary raw data from documentation [REF ICAO 9303 Part 7 Appendix E]', () => {
-    it('should equal the exemplary raw data from documentation in Appendix E-2.', () => {
+    it('should equal the exemplary raw data from documentation in Appendix E-2.', async () => {
       const document = new DigitalSealV4({
         authorityCode: 'UTO',
 	identifierCode: 'UTTS',
@@ -59,7 +66,9 @@ describe('Visible Digital Seal version 4', () => {
                                  0x91, 0xbe, 0xb1, 0x19, 0x7b, 0xed, 0x97, 0xad, 0xf2, 0xff, 0x89, 0xe0, 0xa3, 0x44, 0x51, 0x2b,
                                  0x7b, 0x01, 0x36, 0xc4, 0x40, 0x50, 0xf1, 0x17, 0xe5, 0x07, 0xbc, 0x2a, 0x78, 0x2f, 0xfe, 0x15,
                                  0xf6, 0x8d, 0xdd, 0x68, 0x18, 0xaf, 0x5a, 0x7b, 0xaf, 0x21, 0xca, 0x7c, 0xfc, 0x7e, 0xb3, 0xbe ];
+      const hash = await document.getHash();
       assert.deepStrictEqual(document.signedSeal, signedSeal);
+      assert.deepStrictEqual(hash, sealHash);
     });
   });
 
